@@ -1,0 +1,23 @@
+name: correctness
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y libopenmpi-dev openmpi-bin
+      - run: cmake -S . -B build -DENABLE_MPI=ON && cmake --build build -j2
+      - run: ctest --test-dir build --output-on-failure
+      - run: python3 scripts/verify.py build/greenplan
+      - run: python3 scripts/verify.py build/greenplan --backend mpi
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: cmake -S . -B build
+      - run: cmake --build build --config Release
+      - run: ctest --test-dir build -C Release --output-on-failure
+      - run: python scripts/verify.py build/Release/greenplan.exe
+      - run: python scripts/verify.py build/Release/greenplan.exe --backend ppl
