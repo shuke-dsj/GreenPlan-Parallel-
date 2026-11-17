@@ -8,8 +8,9 @@
 实际仓库地址：https://github.com/shuke-dsj/GreenPlan-Parallel-
 注意仓库实际名称末尾带连字符，与最初建议名称不同。
 
-个人主页需要同名仓库 shuke-dsj/shuke-dsj；若已存在，应先读取并保留原内容，再增加项目段落。
-可直接使用 docs/profile-snippet.md 中带实际仓库链接的介绍。
+个人主页仓库 shuke-dsj/shuke-dsj 已创建，README 已加入项目介绍，并已将项目固定到个人主页。
+主页地址：https://github.com/shuke-dsj
+Linux / Windows 自动验证通过：https://github.com/shuke-dsj/GreenPlan-Parallel-/actions/runs/44057207682
 
 发布内容仅限本目录的源码、文档、测试、脚本、工作流和原始实验 CSV。
 忽略 build/、results/、可执行文件；不包含上级目录的论文、学号或本地技能。

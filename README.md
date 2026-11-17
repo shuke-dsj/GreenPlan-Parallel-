@@ -77,7 +77,7 @@ python scripts/verify.py build-mpi/greenplan --backend mpi
 python scripts/benchmark.py build/greenplan --output results/timings.csv
 ```
 
-Windows 调整二进制路径即可。验证覆盖约束修复、修复幂等性、零产量目标、利润/排放解析值、支配关系、选择数量、固定种子重复性、后端逐字节一致性、奇数种群及非法参数。CI 包含 Linux OpenMP/MPI 和 Windows OpenMP/PPL；**工作流已配置，本次尚未在 GitHub Actions 执行**。
+Windows 调整二进制路径即可。验证覆盖约束修复、修复幂等性、零产量目标、利润/排放解析值、支配关系、选择数量、固定种子重复性、后端逐字节一致性、奇数种群及非法参数。**Linux OpenMP/MPI 与 Windows OpenMP/PPL 已通过 [GitHub Actions 验证](https://github.com/shuke-dsj/GreenPlan-Parallel-/actions/runs/44057207682)**。Linux CI 的 MPI 正确性测试允许超订阅，以便在较少 CPU 槽位上运行 3 进程；这不用于性能基准。
 
 本机实测（2026-11-17，Windows / MinGW GCC 8.1，`-O2 -fopenmp -static`，120 个体、30 代、24 月、种子 42/43/44，各 3 次）：
 
@@ -90,7 +90,7 @@ Windows 调整二进制路径即可。验证覆盖约束修复、修复幂等性
 
 数据来自 [原始计时 CSV](docs/benchmark-local.csv)。这些任务耗时很短，结果受系统噪声影响，**不能据此声称显著加速**。串行遗传操作与参考方向选择占据总耗时，评估并行尚未改变整体瓶颈。原论文的 9.13 倍和 MPI 3.01 倍属于旧版本历史报告，未作为本版本成绩。
 
-本次已本机验证 Serial/OpenMP/MPI；PPL 代码与 CI 已提供，但本机没有 MSVC，尚未执行验证。
+本机验证 Serial/OpenMP/MPI；PPL 已在 Windows MSVC CI 中通过与串行结果一致性验证。
 
 ## 目录
 

@@ -24,8 +24,8 @@
 - 固定种子下 Serial/OpenMP 的 CSV 逐字节一致。
 - 通过 MS-MPI SDK 编译 MPI 后端，19 个体 / 3 进程验证通过。
 - 非法人口规模被拒绝。
-- PPL 需要 MSVC，本机尚未验证；Windows CI 已配置。
-- GitHub Actions 尚未运行，不能把配置文件存在等同于 CI 已通过。
+- PPL 已在 Windows MSVC CI 中通过与串行结果一致性验证。
+- [GitHub Actions 第 2 次运行](https://github.com/shuke-dsj/GreenPlan-Parallel-/actions/runs/44057207682)：Linux / Windows 全部通过。首次运行的 MPI 启动失败通过允许 CI 测试超订阅解决，并补充 subprocess 错误诊断。
 
 ## 性能解释
 
