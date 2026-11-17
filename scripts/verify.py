@@ -8,19 +8,26 @@ import tempfile
 p = argparse.ArgumentParser()
 p.add_argument("binary")
 p.add_argument("--backend", default="openmp", choices=["openmp", "ppl", "mpi"])
+p.add_argument("--mpi-oversubscribe", action="store_true",
+               help="Allow Open MPI correctness tests to exceed runner CPU slots")
 args = p.parse_args()
 binary = str(pathlib.Path(args.binary).resolve())
 with tempfile.TemporaryDirectory() as td:
     root = pathlib.Path(td)
     def run(name, backend, prefix=()):
         output = root / (name + ".csv")
-        subprocess.run([*prefix, binary, "--backend", backend, "--population", "19",
+        command = [*prefix, binary, "--backend", backend, "--population", "19",
                         "--generations", "7", "--months", "3", "--seed", "73",
-                        "--output", str(output)], check=True, capture_output=True)
+                        "--output", str(output)]
+        result = subprocess.run(command, capture_output=True, text=True)
+        if result.returncode:
+            raise RuntimeError(f"{command} failed ({result.returncode})\n{result.stdout}\n{result.stderr}")
         return output.read_bytes()
     reference = run("serial", "serial")
     assert reference == run("repeat", "serial"), "seed reproducibility failed"
     prefix = ["mpiexec", "-n", "3"] if args.backend == "mpi" else []
+    if prefix and args.mpi_oversubscribe:
+        prefix.insert(1, "--oversubscribe")
     assert reference == run("parallel", args.backend, prefix), "backend parity failed"
     rows = list(csv.DictReader(reference.decode().splitlines()))
     assert rows

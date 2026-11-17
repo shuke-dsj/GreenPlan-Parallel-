@@ -11,7 +11,7 @@ jobs:
       - run: cmake -S . -B build -DENABLE_MPI=ON && cmake --build build -j2
       - run: ctest --test-dir build --output-on-failure
       - run: python3 scripts/verify.py build/greenplan
-      - run: python3 scripts/verify.py build/greenplan --backend mpi
+      - run: python3 scripts/verify.py build/greenplan --backend mpi --mpi-oversubscribe
   windows:
     runs-on: windows-latest
     steps:
